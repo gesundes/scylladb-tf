@@ -30,12 +30,6 @@ variable "instance_type" {
   description = "The AWS instance type."
 }
 
-variable "number_of_seeds" {
-  type        = number
-  default     = 1
-  description = "The number of the seed hosts."
-}
-
 variable "number_of_regular_hosts" {
   type        = number
   default     = 2
@@ -44,6 +38,7 @@ variable "number_of_regular_hosts" {
 
 variable "ssh_key_name" {
   type        = string
+  default     = "my_ssh_key"
   description = "The name of your public SSH key uploaded to AWS."
 }
 
@@ -127,10 +122,10 @@ EOF
 
 output "scylladb_seed_public_ip" {
   value       = aws_instance.scylladb_seed.public_ip
-  description = "ScyllaDB seed public IP address"
+  description = "ScyllaDB seed public IP address."
 }
 
 output "scylladb_host_public_ip" {
   value = [aws_instance.scylladb_host.*.public_ip]
-  description = "ScyllaDB host public IP address"
+  description = "ScyllaDB host public IP addresses."
 }
