@@ -12,39 +12,7 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-variable "scylladb_version" {
-  type        = string
-  default     = "6.2.1"
-  description = "The version of the ScyllaDB to install."
-}
-
-variable "your_public_network" {
-  type        = string
-  default     = "0.0.0.0/0"
-  description = "Your public static IP address or your provider network."
-}
-
-variable "instance_type" {
-  type        = string
-  default     = "i4i.large"
-  description = "The AWS instance type."
-}
-
-variable "number_of_regular_hosts" {
-  type        = number
-  default     = 2
-  description = "The number of the regular (not seed) hosts in a cluster."
-}
-
-variable "ssh_key_name" {
-  type        = string
-  default     = "my_ssh_key"
-  description = "The name of your public SSH key uploaded to AWS."
-}
-
 data "aws_ami" "scylladb_ami" {
-  most_recent = true
-
   filter {
     name = "name"
     values = ["ScyllaDB ${var.scylladb_version}"]
@@ -118,14 +86,4 @@ EOF
   }
 
   count = var.number_of_regular_hosts
-}
-
-output "scylladb_seed_public_ip" {
-  value       = aws_instance.scylladb_seed.public_ip
-  description = "ScyllaDB seed public IP address."
-}
-
-output "scylladb_host_public_ip" {
-  value = [aws_instance.scylladb_host.*.public_ip]
-  description = "ScyllaDB host public IP addresses."
 }
